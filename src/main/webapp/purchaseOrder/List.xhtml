@@ -57,9 +57,9 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.dateFilter}" filterBy="#{item.dateFilter}" headerText="#{myBundle.ListPurchaseOrderTitle_salesDate}" filterMatchMode="contains">
-                     <f:facet name="filter">
-                        <p:calendar onkeyup="PF('widgetList').filter()">
+                <p:column sortBy="#{item.salesDate}" filterBy="#{item.salesDate}" headerText="#{myBundle.ListPurchaseOrderTitle_salesDate}" filterMatchMode="contains">
+                    <f:facet name="filter">
+                        <p:calendar pattern="MM/dd/yyyy" onkeyup="PF('widgetList').filter()">
                             <p:ajax event="dateSelect" listener="#{purchaseOrderController.handleDateSelect}"/>
                         </p:calendar>
                     </f:facet>
