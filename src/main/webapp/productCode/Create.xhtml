@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProductCodeCreateDlg" widgetVar="ProductCodeCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateProductCodeTitle}" closeOnEscape="true">
+
+            <h:form id="ProductCodeCreateForm">
+
+                <h:panelGroup id="display" rendered="#{productCodeController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateProductCodeLabel_prodCode}" for="prodCode" />
+                        <p:inputText id="prodCode" value="#{productCodeController.selected.prodCode}" title="#{myBundle.CreateProductCodeTitle_prodCode}" required="true" requiredMessage="#{myBundle.CreateProductCodeRequiredMessage_prodCode}" size="2" maxlength="2"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductCodeLabel_discountCode}" for="discountCode" />
+                        <p:inputText id="discountCode" value="#{productCodeController.selected.discountCode}" title="#{myBundle.CreateProductCodeTitle_discountCode}" required="true" requiredMessage="#{myBundle.CreateProductCodeRequiredMessage_discountCode}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductCodeLabel_description}" for="description" />
+                        <p:inputText id="description" value="#{productCodeController.selected.description}" title="#{myBundle.CreateProductCodeTitle_description}" size="10" maxlength="10"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{productCodeController.saveNew}" value="#{myBundle.Save}" update="display,:ProductCodeListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,ProductCodeCreateDialog);">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="ProductCodeCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

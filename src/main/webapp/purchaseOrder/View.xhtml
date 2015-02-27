@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PurchaseOrderViewDlg" widgetVar="PurchaseOrderViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewPurchaseOrderTitle}" closeOnEscape="true">
+
+            <h:form id="PurchaseOrderViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{purchaseOrderController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewPurchaseOrderLabel_orderNum}"/>
+                        <h:outputText value="#{purchaseOrderController.selected.orderNum}" title="#{myBundle.ViewPurchaseOrderTitle_orderNum}"/>
+
+                        <h:outputText value="#{myBundle.ViewPurchaseOrderLabel_quantity}"/>
+                        <h:outputText value="#{purchaseOrderController.selected.quantity}" title="#{myBundle.ViewPurchaseOrderTitle_quantity}"/>
+
+                        <h:outputText value="#{myBundle.ViewPurchaseOrderLabel_shippingCost}"/>
+                        <h:outputText value="#{purchaseOrderController.selected.shippingCost}" title="#{myBundle.ViewPurchaseOrderTitle_shippingCost}"/>
+
+                        <h:outputText value="#{myBundle.ViewPurchaseOrderLabel_salesDate}"/>
+                        <h:outputText value="#{purchaseOrderController.selected.salesDate}" title="#{myBundle.ViewPurchaseOrderTitle_salesDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewPurchaseOrderLabel_shippingDate}"/>
+                        <h:outputText value="#{purchaseOrderController.selected.shippingDate}" title="#{myBundle.ViewPurchaseOrderTitle_shippingDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewPurchaseOrderLabel_freightCompany}"/>
+                        <h:outputText value="#{purchaseOrderController.selected.freightCompany}" title="#{myBundle.ViewPurchaseOrderTitle_freightCompany}"/>
+
+                        <h:outputText value="#{myBundle.ViewPurchaseOrderLabel_productId}"/>
+                        <h:outputText value="#{purchaseOrderController.selected.productId.description}"/>
+
+                        <h:outputText value="#{myBundle.ViewPurchaseOrderLabel_customerId}"/>
+                        <h:outputText value="#{purchaseOrderController.selected.customerId.name}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PurchaseOrderViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

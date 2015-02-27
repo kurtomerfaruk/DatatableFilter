@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ProductListForm">
+
+        <p:panel header="#{myBundle.ListProductTitle}">
+            <p:contextMenu for="datalist">  
+                <p:menuitem id="createMenuItem" icon="ui-icon-plus" value="#{myBundle.Create}" onclick="document.getElementById('ProductListForm:createButton').click();"/>
+                <p:menuitem id="readMenuItem" icon="ui-icon-search" value="#{myBundle.View}" onclick="document.getElementById('ProductListForm:viewButton').click();"/>
+                <p:menuitem id="updateMenuItem" icon="ui-icon-pencil" value="#{myBundle.Edit}" onclick="document.getElementById('ProductListForm:editButton').click();"/>
+                <p:menuitem id="deleteMenuItem" icon="ui-icon-trash" value="#{myBundle.Delete}" onclick="document.getElementById('ProductListForm:deleteButton').click();"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.ProductMenuItem_productCode}" icon="ui-icon-search"  actionListener="#{productController.prepareProductCode}" update=":ProductCodeViewForm" oncomplete="ProductCodeViewDialog.show()"/>  
+                <p:menuitem value="#{myBundle.ProductMenuItem_manufacturerId}" icon="ui-icon-search"  actionListener="#{productController.prepareManufacturerId}" update=":ManufacturerViewForm" oncomplete="ManufacturerViewDialog.show()"/>  
+                <p:menuitem value="#{myBundle.ProductMenuItem_purchaseOrderList}" icon="ui-icon-search"  action="#{productController.navigatePurchaseOrderList}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{productController.items}"
+                         var="item"
+                         rowKey="#{item.productId}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{productController.selected}">
+
+                <p:ajax event="rowSelect"   update=":ProductListForm:createButton :ProductListForm:viewButton :ProductListForm:editButton :ProductListForm:deleteButton"/>
+                <p:ajax event="rowUnselect" update=":ProductListForm:createButton :ProductListForm:viewButton :ProductListForm:editButton :ProductListForm:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ProductListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.productId}" filterBy="#{item.productId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProductTitle_productId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.productId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.purchaseCost}" filterBy="#{item.purchaseCost}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProductTitle_purchaseCost}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.purchaseCost}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.quantityOnHand}" filterBy="#{item.quantityOnHand}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProductTitle_quantityOnHand}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.quantityOnHand}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.markup}" filterBy="#{item.markup}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProductTitle_markup}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.markup}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.available}" filterBy="#{item.available}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProductTitle_available}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.available}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.description}" filterBy="#{item.description}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProductTitle_description}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.description}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.productCode.description}" filterBy="#{item.productCode.description}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListProductTitle_productCode}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.productCode.description}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.manufacturerId.name}" filterBy="#{item.manufacturerId.name}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListProductTitle_manufacturerId}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.manufacturerId.name}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{productController.prepareCreate}" update=":ProductCreateForm" oncomplete="ProductCreateDialog.show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":ProductViewForm" oncomplete="ProductViewDialog.show()" disabled="#{empty productController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":ProductEditForm" oncomplete="ProductEditDialog.show()" disabled="#{empty productController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{productController.delete}" update=":growl,datalist" disabled="#{empty productController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

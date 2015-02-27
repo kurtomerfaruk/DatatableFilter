@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MicroMarketCreateDlg" widgetVar="MicroMarketCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateMicroMarketTitle}" closeOnEscape="true">
+
+            <h:form id="MicroMarketCreateForm">
+
+                <h:panelGroup id="display" rendered="#{microMarketController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateMicroMarketLabel_zipCode}" for="zipCode" />
+                        <p:inputText id="zipCode" value="#{microMarketController.selected.zipCode}" title="#{myBundle.CreateMicroMarketTitle_zipCode}" required="true" requiredMessage="#{myBundle.CreateMicroMarketRequiredMessage_zipCode}" size="10" maxlength="10"/>
+
+                        <p:outputLabel value="#{myBundle.CreateMicroMarketLabel_radius}" for="radius" />
+                        <p:inputText id="radius" value="#{microMarketController.selected.radius}" title="#{myBundle.CreateMicroMarketTitle_radius}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateMicroMarketLabel_areaLength}" for="areaLength" />
+                        <p:inputText id="areaLength" value="#{microMarketController.selected.areaLength}" title="#{myBundle.CreateMicroMarketTitle_areaLength}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateMicroMarketLabel_areaWidth}" for="areaWidth" />
+                        <p:inputText id="areaWidth" value="#{microMarketController.selected.areaWidth}" title="#{myBundle.CreateMicroMarketTitle_areaWidth}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{microMarketController.saveNew}" value="#{myBundle.Save}" update="display,:MicroMarketListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,MicroMarketCreateDialog);">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="MicroMarketCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ManufacturerViewDlg" widgetVar="ManufacturerViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewManufacturerTitle}" closeOnEscape="true">
+
+            <h:form id="ManufacturerViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{manufacturerController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewManufacturerLabel_manufacturerId}"/>
+                        <h:outputText value="#{manufacturerController.selected.manufacturerId}" title="#{myBundle.ViewManufacturerTitle_manufacturerId}"/>
+
+                        <h:outputText value="#{myBundle.ViewManufacturerLabel_name}"/>
+                        <h:outputText value="#{manufacturerController.selected.name}" title="#{myBundle.ViewManufacturerTitle_name}"/>
+
+                        <h:outputText value="#{myBundle.ViewManufacturerLabel_addressline1}"/>
+                        <h:outputText value="#{manufacturerController.selected.addressline1}" title="#{myBundle.ViewManufacturerTitle_addressline1}"/>
+
+                        <h:outputText value="#{myBundle.ViewManufacturerLabel_addressline2}"/>
+                        <h:outputText value="#{manufacturerController.selected.addressline2}" title="#{myBundle.ViewManufacturerTitle_addressline2}"/>
+
+                        <h:outputText value="#{myBundle.ViewManufacturerLabel_city}"/>
+                        <h:outputText value="#{manufacturerController.selected.city}" title="#{myBundle.ViewManufacturerTitle_city}"/>
+
+                        <h:outputText value="#{myBundle.ViewManufacturerLabel_state}"/>
+                        <h:outputText value="#{manufacturerController.selected.state}" title="#{myBundle.ViewManufacturerTitle_state}"/>
+
+                        <h:outputText value="#{myBundle.ViewManufacturerLabel_zip}"/>
+                        <h:outputText value="#{manufacturerController.selected.zip}" title="#{myBundle.ViewManufacturerTitle_zip}"/>
+
+                        <h:outputText value="#{myBundle.ViewManufacturerLabel_phone}"/>
+                        <h:outputText value="#{manufacturerController.selected.phone}" title="#{myBundle.ViewManufacturerTitle_phone}"/>
+
+                        <h:outputText value="#{myBundle.ViewManufacturerLabel_fax}"/>
+                        <h:outputText value="#{manufacturerController.selected.fax}" title="#{myBundle.ViewManufacturerTitle_fax}"/>
+
+                        <h:outputText value="#{myBundle.ViewManufacturerLabel_email}"/>
+                        <h:outputText value="#{manufacturerController.selected.email}" title="#{myBundle.ViewManufacturerTitle_email}"/>
+
+                        <h:outputText value="#{myBundle.ViewManufacturerLabel_rep}"/>
+                        <h:outputText value="#{manufacturerController.selected.rep}" title="#{myBundle.ViewManufacturerTitle_rep}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="ManufacturerViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

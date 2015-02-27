@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CustomerEditDlg" widgetVar="CustomerEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditCustomerTitle}" closeOnEscape="true">
+
+            <h:form id="CustomerEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{customerController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditCustomerLabel_customerId}" for="customerId" />
+                        <h:outputText id="customerId" value="#{customerController.selected.customerId}" />
+
+                        <p:outputLabel value="#{myBundle.EditCustomerLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{customerController.selected.name}" title="#{myBundle.EditCustomerTitle_name}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{myBundle.EditCustomerLabel_addressline1}" for="addressline1" />
+                        <p:inputText id="addressline1" value="#{customerController.selected.addressline1}" title="#{myBundle.EditCustomerTitle_addressline1}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{myBundle.EditCustomerLabel_addressline2}" for="addressline2" />
+                        <p:inputText id="addressline2" value="#{customerController.selected.addressline2}" title="#{myBundle.EditCustomerTitle_addressline2}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{myBundle.EditCustomerLabel_city}" for="city" />
+                        <p:inputText id="city" value="#{customerController.selected.city}" title="#{myBundle.EditCustomerTitle_city}" size="25" maxlength="25"/>
+
+                        <p:outputLabel value="#{myBundle.EditCustomerLabel_state}" for="state" />
+                        <p:inputText id="state" value="#{customerController.selected.state}" title="#{myBundle.EditCustomerTitle_state}" size="2" maxlength="2"/>
+
+                        <p:outputLabel value="#{myBundle.EditCustomerLabel_phone}" for="phone" />
+                        <p:inputText id="phone" value="#{customerController.selected.phone}" title="#{myBundle.EditCustomerTitle_phone}" size="12" maxlength="12"/>
+
+                        <p:outputLabel value="#{myBundle.EditCustomerLabel_fax}" for="fax" />
+                        <p:inputText id="fax" value="#{customerController.selected.fax}" title="#{myBundle.EditCustomerTitle_fax}" size="12" maxlength="12"/>
+
+                        <p:outputLabel value="#{myBundle.EditCustomerLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{customerController.selected.email}" title="#{myBundle.EditCustomerTitle_email}" size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{myBundle.EditCustomerLabel_creditLimit}" for="creditLimit" />
+                        <p:inputText id="creditLimit" value="#{customerController.selected.creditLimit}" title="#{myBundle.EditCustomerTitle_creditLimit}"/>
+
+                        <p:outputLabel value="#{myBundle.EditCustomerLabel_zip}" for="zip" />
+                        <p:selectOneMenu id="zip" value="#{customerController.selected.zip}" required="true" requiredMessage="#{myBundle.EditCustomerRequiredMessage_zip}" converter="microMarketConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{microMarketController.items}"
+                                           var="zipItem"
+                                           itemValue="#{zipItem}"
+                                           itemLabel="#{zipItem.zipCode.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditCustomerLabel_discountCode}" for="discountCode" />
+                        <p:selectOneMenu id="discountCode" value="#{customerController.selected.discountCode}" required="true" requiredMessage="#{myBundle.EditCustomerRequiredMessage_discountCode}" converter="discountCodeConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{discountCodeController.items}"
+                                           var="discountCodeItem"
+                                           itemValue="#{discountCodeItem}"
+                                           itemLabel="#{discountCodeItem.discountCode.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{customerController.save}" value="#{myBundle.Save}" update="display,:CustomerListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,CustomerEditDialog);">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="CustomerEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

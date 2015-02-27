@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ProductCodeListForm">
+
+        <p:panel header="#{myBundle.ListProductCodeTitle}">
+            <p:contextMenu for="datalist">  
+                <p:menuitem id="createMenuItem" icon="ui-icon-plus" value="#{myBundle.Create}" onclick="document.getElementById('ProductCodeListForm:createButton').click();"/>
+                <p:menuitem id="readMenuItem" icon="ui-icon-search" value="#{myBundle.View}" onclick="document.getElementById('ProductCodeListForm:viewButton').click();"/>
+                <p:menuitem id="updateMenuItem" icon="ui-icon-pencil" value="#{myBundle.Edit}" onclick="document.getElementById('ProductCodeListForm:editButton').click();"/>
+                <p:menuitem id="deleteMenuItem" icon="ui-icon-trash" value="#{myBundle.Delete}" onclick="document.getElementById('ProductCodeListForm:deleteButton').click();"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.ProductCodeMenuItem_productList}" icon="ui-icon-search"  action="#{productCodeController.navigateProductList}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{productCodeController.items}"
+                         var="item"
+                         rowKey="#{item.prodCode}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{productCodeController.selected}">
+
+                <p:ajax event="rowSelect"   update=":ProductCodeListForm:createButton :ProductCodeListForm:viewButton :ProductCodeListForm:editButton :ProductCodeListForm:deleteButton"/>
+                <p:ajax event="rowUnselect" update=":ProductCodeListForm:createButton :ProductCodeListForm:viewButton :ProductCodeListForm:editButton :ProductCodeListForm:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ProductCodeListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.prodCode}" filterBy="#{item.prodCode}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProductCodeTitle_prodCode}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.prodCode}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.discountCode}" filterBy="#{item.discountCode}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProductCodeTitle_discountCode}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.discountCode}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.description}" filterBy="#{item.description}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProductCodeTitle_description}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.description}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{productCodeController.prepareCreate}" update=":ProductCodeCreateForm" oncomplete="ProductCodeCreateDialog.show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":ProductCodeViewForm" oncomplete="ProductCodeViewDialog.show()" disabled="#{empty productCodeController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":ProductCodeEditForm" oncomplete="ProductCodeEditDialog.show()" disabled="#{empty productCodeController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{productCodeController.delete}" update=":growl,datalist" disabled="#{empty productCodeController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

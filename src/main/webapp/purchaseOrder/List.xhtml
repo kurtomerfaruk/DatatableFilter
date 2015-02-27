@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="PurchaseOrderListForm">
+
+        <p:panel header="#{myBundle.ListPurchaseOrderTitle}">
+            <p:contextMenu for="datalist">  
+                <p:menuitem id="createMenuItem" icon="ui-icon-plus" value="#{myBundle.Create}" onclick="document.getElementById('PurchaseOrderListForm:createButton').click();"/>
+                <p:menuitem id="readMenuItem" icon="ui-icon-search" value="#{myBundle.View}" onclick="document.getElementById('PurchaseOrderListForm:viewButton').click();"/>
+                <p:menuitem id="updateMenuItem" icon="ui-icon-pencil" value="#{myBundle.Edit}" onclick="document.getElementById('PurchaseOrderListForm:editButton').click();"/>
+                <p:menuitem id="deleteMenuItem" icon="ui-icon-trash" value="#{myBundle.Delete}" onclick="document.getElementById('PurchaseOrderListForm:deleteButton').click();"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.PurchaseOrderMenuItem_productId}" icon="ui-icon-search"  actionListener="#{purchaseOrderController.prepareProductId}" update=":ProductViewForm" oncomplete="ProductViewDialog.show()"/>  
+                <p:menuitem value="#{myBundle.PurchaseOrderMenuItem_customerId}" icon="ui-icon-search"  actionListener="#{purchaseOrderController.prepareCustomerId}" update=":CustomerViewForm" oncomplete="CustomerViewDialog.show()"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{purchaseOrderController.items}"
+                         var="item"
+                         rowKey="#{item.orderNum}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{purchaseOrderController.selected}"
+                         widgetVar="widgetList">
+
+                <p:ajax event="rowSelect"   update=":PurchaseOrderListForm:createButton :PurchaseOrderListForm:viewButton :PurchaseOrderListForm:editButton :PurchaseOrderListForm:deleteButton"/>
+                <p:ajax event="rowUnselect" update=":PurchaseOrderListForm:createButton :PurchaseOrderListForm:viewButton :PurchaseOrderListForm:editButton :PurchaseOrderListForm:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('PurchaseOrderListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.orderNum}" filterBy="#{item.orderNum}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPurchaseOrderTitle_orderNum}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.orderNum}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.quantity}" filterBy="#{item.quantity}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPurchaseOrderTitle_quantity}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.quantity}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.shippingCost}" filterBy="#{item.shippingCost}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPurchaseOrderTitle_shippingCost}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.shippingCost}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.dateFilter}" filterBy="#{item.dateFilter}" headerText="#{myBundle.ListPurchaseOrderTitle_salesDate}" filterMatchMode="contains">
+                     <f:facet name="filter">
+                        <p:calendar onkeyup="PF('widgetList').filter()">
+                            <p:ajax event="dateSelect" listener="#{purchaseOrderController.handleDateSelect}"/>
+                        </p:calendar>
+                    </f:facet>
+                    <h:outputText value="#{item.dateFilter}">
+                        <f:convertDateTime pattern="MM/dd/yyyy"/>
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.shippingDate}" filterBy="#{item.shippingDate}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPurchaseOrderTitle_shippingDate}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.shippingDate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.freightCompany}" filterBy="#{item.freightCompany}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPurchaseOrderTitle_freightCompany}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.freightCompany}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.productId.description}" filterBy="#{item.productId.description}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListPurchaseOrderTitle_productId}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.productId.description}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.customerId.name}" filterBy="#{item.customerId.name}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListPurchaseOrderTitle_customerId}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.customerId.name}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{purchaseOrderController.prepareCreate}" update=":PurchaseOrderCreateForm" oncomplete="PurchaseOrderCreateDialog.show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":PurchaseOrderViewForm" oncomplete="PurchaseOrderViewDialog.show()" disabled="#{empty purchaseOrderController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":PurchaseOrderEditForm" oncomplete="PurchaseOrderEditDialog.show()" disabled="#{empty purchaseOrderController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{purchaseOrderController.delete}" update=":growl,datalist" disabled="#{empty purchaseOrderController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

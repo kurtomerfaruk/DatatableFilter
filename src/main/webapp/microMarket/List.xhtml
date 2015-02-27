@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="MicroMarketListForm">
+
+        <p:panel header="#{myBundle.ListMicroMarketTitle}">
+            <p:contextMenu for="datalist">  
+                <p:menuitem id="createMenuItem" icon="ui-icon-plus" value="#{myBundle.Create}" onclick="document.getElementById('MicroMarketListForm:createButton').click();"/>
+                <p:menuitem id="readMenuItem" icon="ui-icon-search" value="#{myBundle.View}" onclick="document.getElementById('MicroMarketListForm:viewButton').click();"/>
+                <p:menuitem id="updateMenuItem" icon="ui-icon-pencil" value="#{myBundle.Edit}" onclick="document.getElementById('MicroMarketListForm:editButton').click();"/>
+                <p:menuitem id="deleteMenuItem" icon="ui-icon-trash" value="#{myBundle.Delete}" onclick="document.getElementById('MicroMarketListForm:deleteButton').click();"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.MicroMarketMenuItem_customerList}" icon="ui-icon-search"  action="#{microMarketController.navigateCustomerList}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{microMarketController.items}"
+                         var="item"
+                         rowKey="#{item.zipCode}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{microMarketController.selected}">
+
+                <p:ajax event="rowSelect"   update=":MicroMarketListForm:createButton :MicroMarketListForm:viewButton :MicroMarketListForm:editButton :MicroMarketListForm:deleteButton"/>
+                <p:ajax event="rowUnselect" update=":MicroMarketListForm:createButton :MicroMarketListForm:viewButton :MicroMarketListForm:editButton :MicroMarketListForm:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('MicroMarketListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.zipCode}" filterBy="#{item.zipCode}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListMicroMarketTitle_zipCode}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.zipCode}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.radius}" filterBy="#{item.radius}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListMicroMarketTitle_radius}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.radius}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.areaLength}" filterBy="#{item.areaLength}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListMicroMarketTitle_areaLength}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.areaLength}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.areaWidth}" filterBy="#{item.areaWidth}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListMicroMarketTitle_areaWidth}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.areaWidth}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{microMarketController.prepareCreate}" update=":MicroMarketCreateForm" oncomplete="MicroMarketCreateDialog.show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":MicroMarketViewForm" oncomplete="MicroMarketViewDialog.show()" disabled="#{empty microMarketController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":MicroMarketEditForm" oncomplete="MicroMarketEditDialog.show()" disabled="#{empty microMarketController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{microMarketController.delete}" update=":growl,datalist" disabled="#{empty microMarketController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

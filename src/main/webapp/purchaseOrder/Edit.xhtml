@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="PurchaseOrderEditDlg" widgetVar="PurchaseOrderEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditPurchaseOrderTitle}" closeOnEscape="true">
+
+            <h:form id="PurchaseOrderEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{purchaseOrderController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditPurchaseOrderLabel_orderNum}" for="orderNum" />
+                        <h:outputText id="orderNum" value="#{purchaseOrderController.selected.orderNum}" />
+
+                        <p:outputLabel value="#{myBundle.EditPurchaseOrderLabel_quantity}" for="quantity" />
+                        <p:inputText id="quantity" value="#{purchaseOrderController.selected.quantity}" title="#{myBundle.EditPurchaseOrderTitle_quantity}"/>
+
+                        <p:outputLabel value="#{myBundle.EditPurchaseOrderLabel_shippingCost}" for="shippingCost" />
+                        <p:inputText id="shippingCost" value="#{purchaseOrderController.selected.shippingCost}" title="#{myBundle.EditPurchaseOrderTitle_shippingCost}"/>
+
+                        <p:outputLabel value="#{myBundle.EditPurchaseOrderLabel_salesDate}" for="salesDate" />
+                        <p:calendar id="salesDate" pattern="MM/dd/yyyy" value="#{purchaseOrderController.selected.salesDate}" title="#{myBundle.EditPurchaseOrderTitle_salesDate}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditPurchaseOrderLabel_shippingDate}" for="shippingDate" />
+                        <p:calendar id="shippingDate" pattern="MM/dd/yyyy" value="#{purchaseOrderController.selected.shippingDate}" title="#{myBundle.EditPurchaseOrderTitle_shippingDate}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditPurchaseOrderLabel_freightCompany}" for="freightCompany" />
+                        <p:inputText id="freightCompany" value="#{purchaseOrderController.selected.freightCompany}" title="#{myBundle.EditPurchaseOrderTitle_freightCompany}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{myBundle.EditPurchaseOrderLabel_productId}" for="productId" />
+                        <p:selectOneMenu id="productId" value="#{purchaseOrderController.selected.productId}" required="true" requiredMessage="#{myBundle.EditPurchaseOrderRequiredMessage_productId}" converter="productConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{productController.items}"
+                                           var="productIdItem"
+                                           itemValue="#{productIdItem}"
+                                           itemLabel="#{productIdItem.description.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditPurchaseOrderLabel_customerId}" for="customerId" />
+                        <p:selectOneMenu id="customerId" value="#{purchaseOrderController.selected.customerId}" required="true" requiredMessage="#{myBundle.EditPurchaseOrderRequiredMessage_customerId}" converter="customerConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{customerController.items}"
+                                           var="customerIdItem"
+                                           itemValue="#{customerIdItem}"
+                                           itemLabel="#{customerIdItem.name.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{purchaseOrderController.save}" value="#{myBundle.Save}" update="display,:PurchaseOrderListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PurchaseOrderEditDialog);">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PurchaseOrderEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

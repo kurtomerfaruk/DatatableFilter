@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CustomerCreateDlg" widgetVar="CustomerCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateCustomerTitle}" closeOnEscape="true">
+
+            <h:form id="CustomerCreateForm">
+
+                <h:panelGroup id="display" rendered="#{customerController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateCustomerLabel_customerId}" for="customerId" />
+                        <p:inputText id="customerId" value="#{customerController.selected.customerId}" title="#{myBundle.CreateCustomerTitle_customerId}" required="true" requiredMessage="#{myBundle.CreateCustomerRequiredMessage_customerId}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomerLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{customerController.selected.name}" title="#{myBundle.CreateCustomerTitle_name}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomerLabel_addressline1}" for="addressline1" />
+                        <p:inputText id="addressline1" value="#{customerController.selected.addressline1}" title="#{myBundle.CreateCustomerTitle_addressline1}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomerLabel_addressline2}" for="addressline2" />
+                        <p:inputText id="addressline2" value="#{customerController.selected.addressline2}" title="#{myBundle.CreateCustomerTitle_addressline2}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomerLabel_city}" for="city" />
+                        <p:inputText id="city" value="#{customerController.selected.city}" title="#{myBundle.CreateCustomerTitle_city}" size="25" maxlength="25"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomerLabel_state}" for="state" />
+                        <p:inputText id="state" value="#{customerController.selected.state}" title="#{myBundle.CreateCustomerTitle_state}" size="2" maxlength="2"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomerLabel_phone}" for="phone" />
+                        <p:inputText id="phone" value="#{customerController.selected.phone}" title="#{myBundle.CreateCustomerTitle_phone}" size="12" maxlength="12"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomerLabel_fax}" for="fax" />
+                        <p:inputText id="fax" value="#{customerController.selected.fax}" title="#{myBundle.CreateCustomerTitle_fax}" size="12" maxlength="12"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomerLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{customerController.selected.email}" title="#{myBundle.CreateCustomerTitle_email}" size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomerLabel_creditLimit}" for="creditLimit" />
+                        <p:inputText id="creditLimit" value="#{customerController.selected.creditLimit}" title="#{myBundle.CreateCustomerTitle_creditLimit}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomerLabel_zip}" for="zip" />
+                        <p:selectOneMenu id="zip" value="#{customerController.selected.zip}" required="true" requiredMessage="#{myBundle.CreateCustomerRequiredMessage_zip}" converter="microMarketConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{microMarketController.items}"
+                                           var="zipItem"
+                                           itemValue="#{zipItem}"
+                                           itemLabel="#{zipItem.zipCode.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomerLabel_discountCode}" for="discountCode" />
+                        <p:selectOneMenu id="discountCode" value="#{customerController.selected.discountCode}" required="true" requiredMessage="#{myBundle.CreateCustomerRequiredMessage_discountCode}" converter="discountCodeConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{discountCodeController.items}"
+                                           var="discountCodeItem"
+                                           itemValue="#{discountCodeItem}"
+                                           itemLabel="#{discountCodeItem.discountCode.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{customerController.saveNew}" value="#{myBundle.Save}" update="display,:CustomerListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CustomerCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="CustomerCreateDialog.hide()" immediate="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ManufacturerEditDlg" widgetVar="ManufacturerEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditManufacturerTitle}" closeOnEscape="true">
+
+            <h:form id="ManufacturerEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{manufacturerController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditManufacturerLabel_manufacturerId}" for="manufacturerId" />
+                        <h:outputText id="manufacturerId" value="#{manufacturerController.selected.manufacturerId}" />
+
+                        <p:outputLabel value="#{myBundle.EditManufacturerLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{manufacturerController.selected.name}" title="#{myBundle.EditManufacturerTitle_name}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{myBundle.EditManufacturerLabel_addressline1}" for="addressline1" />
+                        <p:inputText id="addressline1" value="#{manufacturerController.selected.addressline1}" title="#{myBundle.EditManufacturerTitle_addressline1}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{myBundle.EditManufacturerLabel_addressline2}" for="addressline2" />
+                        <p:inputText id="addressline2" value="#{manufacturerController.selected.addressline2}" title="#{myBundle.EditManufacturerTitle_addressline2}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{myBundle.EditManufacturerLabel_city}" for="city" />
+                        <p:inputText id="city" value="#{manufacturerController.selected.city}" title="#{myBundle.EditManufacturerTitle_city}" size="25" maxlength="25"/>
+
+                        <p:outputLabel value="#{myBundle.EditManufacturerLabel_state}" for="state" />
+                        <p:inputText id="state" value="#{manufacturerController.selected.state}" title="#{myBundle.EditManufacturerTitle_state}" size="2" maxlength="2"/>
+
+                        <p:outputLabel value="#{myBundle.EditManufacturerLabel_zip}" for="zip" />
+                        <p:inputText id="zip" value="#{manufacturerController.selected.zip}" title="#{myBundle.EditManufacturerTitle_zip}" size="10" maxlength="10"/>
+
+                        <p:outputLabel value="#{myBundle.EditManufacturerLabel_phone}" for="phone" />
+                        <p:inputText id="phone" value="#{manufacturerController.selected.phone}" title="#{myBundle.EditManufacturerTitle_phone}" size="12" maxlength="12"/>
+
+                        <p:outputLabel value="#{myBundle.EditManufacturerLabel_fax}" for="fax" />
+                        <p:inputText id="fax" value="#{manufacturerController.selected.fax}" title="#{myBundle.EditManufacturerTitle_fax}" size="12" maxlength="12"/>
+
+                        <p:outputLabel value="#{myBundle.EditManufacturerLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{manufacturerController.selected.email}" title="#{myBundle.EditManufacturerTitle_email}" size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{myBundle.EditManufacturerLabel_rep}" for="rep" />
+                        <p:inputText id="rep" value="#{manufacturerController.selected.rep}" title="#{myBundle.EditManufacturerTitle_rep}" size="30" maxlength="30"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{manufacturerController.save}" value="#{myBundle.Save}" update="display,:ManufacturerListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,ManufacturerEditDialog);">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="ManufacturerEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

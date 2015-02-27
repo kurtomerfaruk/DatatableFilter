@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProductViewDlg" widgetVar="ProductViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewProductTitle}" closeOnEscape="true">
+
+            <h:form id="ProductViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{productController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewProductLabel_productId}"/>
+                        <h:outputText value="#{productController.selected.productId}" title="#{myBundle.ViewProductTitle_productId}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductLabel_purchaseCost}"/>
+                        <h:outputText value="#{productController.selected.purchaseCost}" title="#{myBundle.ViewProductTitle_purchaseCost}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductLabel_quantityOnHand}"/>
+                        <h:outputText value="#{productController.selected.quantityOnHand}" title="#{myBundle.ViewProductTitle_quantityOnHand}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductLabel_markup}"/>
+                        <h:outputText value="#{productController.selected.markup}" title="#{myBundle.ViewProductTitle_markup}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductLabel_available}"/>
+                        <h:outputText value="#{productController.selected.available}" title="#{myBundle.ViewProductTitle_available}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductLabel_description}"/>
+                        <h:outputText value="#{productController.selected.description}" title="#{myBundle.ViewProductTitle_description}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductLabel_productCode}"/>
+                        <h:outputText value="#{productController.selected.productCode.description}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductLabel_manufacturerId}"/>
+                        <h:outputText value="#{productController.selected.manufacturerId.name}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="ProductViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

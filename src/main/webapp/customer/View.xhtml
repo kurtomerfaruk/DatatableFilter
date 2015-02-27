@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CustomerViewDlg" widgetVar="CustomerViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewCustomerTitle}" closeOnEscape="true">
+
+            <h:form id="CustomerViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{customerController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewCustomerLabel_customerId}"/>
+                        <h:outputText value="#{customerController.selected.customerId}" title="#{myBundle.ViewCustomerTitle_customerId}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomerLabel_name}"/>
+                        <h:outputText value="#{customerController.selected.name}" title="#{myBundle.ViewCustomerTitle_name}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomerLabel_addressline1}"/>
+                        <h:outputText value="#{customerController.selected.addressline1}" title="#{myBundle.ViewCustomerTitle_addressline1}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomerLabel_addressline2}"/>
+                        <h:outputText value="#{customerController.selected.addressline2}" title="#{myBundle.ViewCustomerTitle_addressline2}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomerLabel_city}"/>
+                        <h:outputText value="#{customerController.selected.city}" title="#{myBundle.ViewCustomerTitle_city}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomerLabel_state}"/>
+                        <h:outputText value="#{customerController.selected.state}" title="#{myBundle.ViewCustomerTitle_state}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomerLabel_phone}"/>
+                        <h:outputText value="#{customerController.selected.phone}" title="#{myBundle.ViewCustomerTitle_phone}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomerLabel_fax}"/>
+                        <h:outputText value="#{customerController.selected.fax}" title="#{myBundle.ViewCustomerTitle_fax}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomerLabel_email}"/>
+                        <h:outputText value="#{customerController.selected.email}" title="#{myBundle.ViewCustomerTitle_email}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomerLabel_creditLimit}"/>
+                        <h:outputText value="#{customerController.selected.creditLimit}" title="#{myBundle.ViewCustomerTitle_creditLimit}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomerLabel_zip}"/>
+                        <h:outputText value="#{customerController.selected.zip.zipCode}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomerLabel_discountCode}"/>
+                        <h:outputText value="#{customerController.selected.discountCode.discountCode}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="CustomerViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
