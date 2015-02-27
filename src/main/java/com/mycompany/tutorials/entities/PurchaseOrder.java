@@ -145,7 +145,6 @@ public class PurchaseOrder implements Serializable {
     }
 
     public String getDateFilter() {
-        System.out.println("salesDate:"+new SimpleDateFormat("MM/dd/yyyy").format(salesDate));
         return new SimpleDateFormat("MM/dd/yyyy").format(salesDate);
     }
 
